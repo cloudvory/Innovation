@@ -521,7 +521,7 @@ local function main()
 		end)
 
 		releaseEvent = input.InputEnded:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.Touch then
 				releaseEvent:Disconnect()
 				mouseEvent:Disconnect()
 				newGui:Destroy()
@@ -579,7 +579,7 @@ local function main()
 		end)
 
 		newEntry.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 				local releaseEvent,mouseEvent
 
 				local mouse = Main.Mouse or plr:GetMouse()
@@ -590,7 +590,7 @@ local function main()
 				local listOffsetY = startY - treeFrame.AbsolutePosition.Y
 
 				releaseEvent = clonerefs(game:GetService("UserInputService")).InputEnded:Connect(function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						releaseEvent:Disconnect()
 						mouseEvent:Disconnect()
 					end
@@ -4674,7 +4674,7 @@ local function main()
 				elseif mode == 2 then
 					button.BackgroundColor3 = control.HoverColor
 				end
-			elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+			elseif input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 				holding = true
 				if mode == 1 then
 					button.BackgroundTransparency = 0
@@ -4693,7 +4693,7 @@ local function main()
 				elseif mode == 2 then
 					button.BackgroundColor3 = control.StartColor
 				end
-			elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+			elseif input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 				holding = false
 				if mode == 1 then
 					button.BackgroundTransparency = Lib.CheckMouseInGui(button) and 0.4 or 1
@@ -5477,7 +5477,7 @@ local function main()
 
 					if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 						resizer.BackgroundTransparency = 0.5
-					elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+					elseif input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						local releaseEvent,mouseEvent
 
 						local offX = mouse.X - resizer.AbsolutePosition.X
@@ -5487,7 +5487,7 @@ local function main()
 						resizer.BackgroundTransparency = 1
 
 						releaseEvent = service.UserInputService.InputEnded:Connect(function(input)
-							if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 								releaseEvent:Disconnect()
 								mouseEvent:Disconnect()
 								self.Resizing = false
@@ -5619,7 +5619,7 @@ local function main()
 			self.ContentPane = guiMain.Content
 
 			guiTopBar.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 and self.Draggable then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and self.Draggable then
 					local releaseEvent,mouseEvent
 
 					local maxX = sidesGui.AbsoluteSize.X
@@ -5633,7 +5633,7 @@ local function main()
 					guiDragging = true
 
 					releaseEvent = clonerefs(game:GetService("UserInputService")).InputEnded:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 							releaseEvent:Disconnect()
 							mouseEvent:Disconnect()
 							guiDragging = false
@@ -5715,7 +5715,7 @@ local function main()
 			end)
 
 			guiMain.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 and not self.Aligned and not self.Closed then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and not self.Aligned and not self.Closed then
 					moveToTop(self)
 				end
 			end)
@@ -5821,7 +5821,7 @@ local function main()
 				if not side.Resizing then
 					if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 						resizer.BackgroundColor3 = theme.MainColor2
-					elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+					elseif input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						local releaseEvent,mouseEvent
 
 						local offX = mouse.X - resizer.AbsolutePosition.X
@@ -5831,7 +5831,7 @@ local function main()
 						resizer.BackgroundColor3 = theme.MainColor2
 
 						releaseEvent = service.UserInputService.InputEnded:Connect(function(input)
-							if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 								releaseEvent:Disconnect()
 								mouseEvent:Disconnect()
 								side.Resizing = false
@@ -6952,7 +6952,7 @@ local function main()
 			local lines = obj.Lines
 			
 			codeFrame.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 					local fontSizeX,fontSizeY = math.ceil(obj.FontSize/2),obj.FontSize
 					
 					local relX = mouse.X - codeFrame.AbsolutePosition.X
@@ -6991,7 +6991,7 @@ local function main()
 					end
 
 					releaseEvent = service.UserInputService.InputEnded:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 							releaseEvent:Disconnect()
 							mouseEvent:Disconnect()
 							scrollEvent:Disconnect()
@@ -7080,7 +7080,7 @@ local function main()
 			
 			elems.ScrollCorner.Parent = frame
 			linesFrame.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 					obj:SetEditing(true,input)
 				end
 			end)
@@ -8111,7 +8111,7 @@ local function main()
 				if i.UserInputType == Enum.UserInputType.MouseButton1 then
 					local release
 					release = service.UserInputService.InputEnded:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 							release:Disconnect()
 
 							if Lib.CheckMouseInGui(checkbox) then
@@ -8315,7 +8315,7 @@ local function main()
 
 		local function hexInput(self,hex,color)
 			hex.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 and isMouseInHexagon(hex) then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and isMouseInHexagon(hex) then
 					self.OnSelect:Fire(color)
 					self:Close()
 				end
@@ -8653,7 +8653,7 @@ local function main()
 				frame.ArrowFrame.Up.InputBegan:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 						frame.ArrowFrame.Up.BackgroundTransparency = 0.5
-					elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+					elseif input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						local releaseEvent,runEvent
 
 						local startTime = tick()
@@ -8689,7 +8689,7 @@ local function main()
 				frame.ArrowFrame.Down.InputBegan:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 						frame.ArrowFrame.Down.BackgroundTransparency = 0.5
-					elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+					elseif input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						local releaseEvent,runEvent
 
 						local startTime = tick()
@@ -8724,7 +8724,7 @@ local function main()
 			end
 
 			colorSpace.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 					local releaseEvent,mouseEvent
 
 					releaseEvent = user.InputEnded:Connect(function(input)
@@ -8744,7 +8744,7 @@ local function main()
 			end)
 
 			colorStrip.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 					local releaseEvent,mouseEvent
 
 					releaseEvent = user.InputEnded:Connect(function(input)
@@ -9154,7 +9154,7 @@ local function main()
 						newSelect.BackgroundTransparency = 0
 						updateInputs(point)
 					end
-					if input.UserInputType == Enum.UserInputType.MouseButton1 and not currentlySelected then
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and not currentlySelected then
 						currentPoint = point
 						local mouseEvent,releaseEvent
 						currentlySelected = true
@@ -9321,7 +9321,7 @@ local function main()
 			end
 
 			numberLine.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 and #points < 20 then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and #points < 20 then
 					if Lib.CheckMouseInGui(envelopeDragTop) or Lib.CheckMouseInGui(envelopeDragBottom) then return end
 					for i,v in pairs(points) do
 						if Lib.CheckMouseInGui(v[4].Select) then return end
@@ -9495,7 +9495,7 @@ local function main()
 						cursor.Visible = true
 						cursor.Position = UDim2.new(0,9 + newArrow.Position.X.Offset,0,0)
 					end
-					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						updateInputs(point)
 						if point == beginPoint or point == endPoint or currentlySelected then return end
 
@@ -9579,7 +9579,7 @@ local function main()
 			end
 
 			colorLine.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 and #colors < 20 then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and #colors < 20 then
 					local maxSize = colorLine.AbsoluteSize.X-1
 					local relativeX = mouse.X - colorLine.AbsolutePosition.X
 					if relativeX < 0 then relativeX = 0 end
@@ -9641,7 +9641,7 @@ local function main()
 			end)
 
 			colorBox.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 					local editor = newMt.ColorPicker
 					if not editor then
 						editor = Lib.ColorPicker.new()
@@ -10928,7 +10928,7 @@ Main = (function()
 			end)()
 		else
 			Main.MainGuiMouseEvent = service.UserInputService.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 and not Lib.CheckMouseInGui(Main.MainGui.OpenButton) and not Lib.CheckMouseInGui(Main.MainGui.OpenButton.MainFrame) then
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and not Lib.CheckMouseInGui(Main.MainGui.OpenButton) and not Lib.CheckMouseInGui(Main.MainGui.OpenButton.MainFrame) then
 					Main.SetMainGuiOpen(false)
 				end
 			end)
