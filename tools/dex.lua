@@ -5147,59 +5147,59 @@ local function main()
 
 			--local thumbColor = Color3.new(120/255,120/255,120/255)
 			--local thumbSelectColor = Color3.new(140/255,140/255,140/255)
-			button1.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseMovement and not buttonPress and self:CanScrollUp() then button1.BackgroundTransparency = 0.8 end
-				if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-				buttonPress = true
-				button1.BackgroundTransparency = 0.5
-				if self:CanScrollUp() then self:ScrollUp() self.Scrolled:Fire() end
-				local buttonTick = tick()
-				local releaseEvent
-				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
-					releaseEvent:Disconnect()
-					if checkMouseInGui(button1) and self:CanScrollUp() then button1.BackgroundTransparency = 0.8 else button1.BackgroundTransparency = 1 end
-					buttonPress = false
-				end)
-				while buttonPress do
-					if tick() - buttonTick >= 0.3 and self:CanScrollUp() then
-						self:ScrollUp()
-						self.Scrolled:Fire()
-					end
-					wait()
-				end
-				end
-			end)
+      button1.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+          buttonPress = true
+          button1.BackgroundTransparency = 0.5
+          if self:CanScrollUp() then self:ScrollUp() self.Scrolled:Fire() end
+          local buttonTick = tick()
+          local releaseEvent
+          releaseEvent = user.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+              releaseEvent:Disconnect()
+              if checkMouseInGui(button1) and self:CanScrollUp() then button1.BackgroundTransparency = 0.8 else button1.BackgroundTransparency = 1 end
+              buttonPress = false
+            end
+          end)
+          while buttonPress then
+            if tick() - buttonTick >= 0.3 and self:CanScrollUp() then
+              self:ScrollUp()
+              self.Scrolled:Fire()
+						end
+						task.wait()
+          end
+        end
+      end)
 			button1.InputEnded:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement and not buttonPress then button1.BackgroundTransparency = 1 end
 			end)
-			button2.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseMovement and not buttonPress and self:CanScrollDown() then button2.BackgroundTransparency = 0.8 end
-				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-				buttonPress = true
-				button2.BackgroundTransparency = 0.5
-				if self:CanScrollDown() then self:ScrollDown() self.Scrolled:Fire() end
-				local buttonTick = tick()
-				local releaseEvent
-				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
-					releaseEvent:Disconnect()
-					if checkMouseInGui(button2) and self:CanScrollDown() then button2.BackgroundTransparency = 0.8 else button2.BackgroundTransparency = 1 end
-					buttonPress = false
-				end)
-				while buttonPress do
-					if tick() - buttonTick >= 0.3 and self:CanScrollDown() then
-						self:ScrollDown()
-						self.Scrolled:Fire()
-					end
-					wait()
-				end
-				end
-			end)
+      button2.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+          buttonPress = true
+          button1.BackgroundTransparency = 0.5
+          if self:CanScrollDown() then self:ScrollDown() self.Scrolled:Fire() end
+          local buttonTick = tick()
+          local releaseEvent
+          releaseEvent = user.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+              releaseEvent:Disconnect()
+              if checkMouseInGui(button1) and self:CanScrollDown() then button1.BackgroundTransparency = 0.8 else button1.BackgroundTransparency = 1 end
+              buttonPress = false
+            end
+          end)
+          while buttonPress then
+            if tick() - buttonTick >= 0.3 and self:CanScrollUp() then
+              self:ScrollDown()
+              self.Scrolled:Fire()
+						end
+						task.wait()
+          end
+        end
+      end)
 			button2.InputEnded:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseMovement and not buttonPress then button2.BackgroundTransparency = 1 end
+				if input.UserInputType == Enum.UserInputType.MouseMovement and not buttonPress then button1.BackgroundTransparency = 1 end
 			end)
-
+      
 			scrollThumb.InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement and not thumbPress then scrollThumb.BackgroundTransparency = 0.2 scrollThumb.BackgroundColor3 = self.ThumbSelectColor end
 				if input.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
