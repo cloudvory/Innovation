@@ -3086,11 +3086,11 @@ local function main()
 		end)
 
 		valueFrame.SoundPreview.InputBegan:Connect(function(input)
-			if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+			if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 
 			local releaseEvent,mouseEvent
 			releaseEvent = service.UserInputService.InputEnded:Connect(function(input)
-				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 				releaseEvent:Disconnect()
 				mouseEvent:Disconnect()
 			end)
@@ -5149,14 +5149,14 @@ local function main()
 			--local thumbSelectColor = Color3.new(140/255,140/255,140/255)
 			button1.InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch and not buttonPress and self:CanScrollUp() then button1.BackgroundTransparency = 0.8 end
-				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch or not self:CanScrollUp() then return end
+				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch or not self:CanScrollUp() then return end
 				buttonPress = true
 				button1.BackgroundTransparency = 0.5
 				if self:CanScrollUp() then self:ScrollUp() self.Scrolled:Fire() end
 				local buttonTick = tick()
 				local releaseEvent
 				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 					releaseEvent:Disconnect()
 					if checkMouseInGui(button1) and self:CanScrollUp() then button1.BackgroundTransparency = 0.8 else button1.BackgroundTransparency = 1 end
 					buttonPress = false
@@ -5174,14 +5174,14 @@ local function main()
 			end)
 			button2.InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch and not buttonPress and self:CanScrollDown() then button2.BackgroundTransparency = 0.8 end
-				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or not self:CanScrollDown() then return end
+				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch or not self:CanScrollDown() then return end
 				buttonPress = true
 				button2.BackgroundTransparency = 0.5
 				if self:CanScrollDown() then self:ScrollDown() self.Scrolled:Fire() end
 				local buttonTick = tick()
 				local releaseEvent
 				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 					releaseEvent:Disconnect()
 					if checkMouseInGui(button2) and self:CanScrollDown() then button2.BackgroundTransparency = 0.8 else button2.BackgroundTransparency = 1 end
 					buttonPress = false
@@ -5200,7 +5200,7 @@ local function main()
 
 			scrollThumb.InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch and not thumbPress then scrollThumb.BackgroundTransparency = 0.2 scrollThumb.BackgroundColor3 = self.ThumbSelectColor end
-				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 
 				local dir = self.Horizontal and "X" or "Y"
 				local lastThumbPos = nil
@@ -5214,7 +5214,7 @@ local function main()
 				local releaseEvent
 				local mouseEvent
 				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 					releaseEvent:Disconnect()
 					if mouseEvent then mouseEvent:Disconnect() end
 					if checkMouseInGui(scrollThumb) then scrollThumb.BackgroundTransparency = 0.2 else scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
@@ -5243,7 +5243,7 @@ local function main()
 				if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch and not thumbPress then scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
 			end)
 			scrollThumbFrame.InputBegan:Connect(function(input)
-				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch or checkMouseInGui(scrollThumb) then return end
+				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch or checkMouseInGui(scrollThumb) then return end
 
 				local dir = self.Horizontal and "X" or "Y"
 				local scrollDir = 0
@@ -5266,7 +5266,7 @@ local function main()
 				local thumbFrameTick = tick()
 				local releaseEvent
 				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 					releaseEvent:Disconnect()
 					thumbFramePress = false
 				end)
@@ -6676,7 +6676,7 @@ local function main()
 			local closable
 			if self.CloseEvent then self.CloseEvent:Disconnect() end
 			self.CloseEvent = service.UserInputService.InputBegan:Connect(function(input)
-				if not closable or input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+				if not closable or input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 
 				if not Lib.CheckMouseInGui(elems.Main) then
 					self.CloseEvent:Disconnect()
@@ -8393,7 +8393,7 @@ local function main()
 			local closable = false
 			if self.CloseEvent then self.CloseEvent:Disconnect() end
 			self.CloseEvent = service.UserInputService.InputBegan:Connect(function(input)
-				if not closable or input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+				if not closable or input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 
 				if not Lib.CheckMouseInGui(self.Gui.Frame) then
 					self.CloseEvent:Disconnect()
@@ -8663,7 +8663,7 @@ local function main()
 						if not startNum then return end
 
 						releaseEvent = user.InputEnded:Connect(function(input)
-							if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+							if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 							releaseEvent:Disconnect()
 							pressing = false
 						end)
@@ -8699,7 +8699,7 @@ local function main()
 						if not startNum then return end
 
 						releaseEvent = user.InputEnded:Connect(function(input)
-							if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+							if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 							releaseEvent:Disconnect()
 							pressing = false
 						end)
@@ -8728,7 +8728,7 @@ local function main()
 					local releaseEvent,mouseEvent
 
 					releaseEvent = user.InputEnded:Connect(function(input)
-						if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+						if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 						releaseEvent:Disconnect()
 						mouseEvent:Disconnect()
 					end)
@@ -8748,7 +8748,7 @@ local function main()
 					local releaseEvent,mouseEvent
 
 					releaseEvent = user.InputEnded:Connect(function(input)
-						if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+						if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 						releaseEvent:Disconnect()
 						mouseEvent:Disconnect()
 					end)
@@ -9069,7 +9069,7 @@ local function main()
 			end
 
 			envelopeDragTop.InputBegan:Connect(function(input)
-				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch or not currentPoint or Lib.CheckMouseInGui(currentPoint[4].Select) then return end
+				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch or not currentPoint or Lib.CheckMouseInGui(currentPoint[4].Select) then return end
 				local mouseEvent,releaseEvent
 				local maxSize = numberLine.AbsoluteSize.Y
 
@@ -9079,7 +9079,7 @@ local function main()
 				envelopeDragTop.Line.Size = UDim2.new(0,3,0,20)
 
 				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 					mouseEvent:Disconnect()
 					releaseEvent:Disconnect()
 					envelopeDragTop.Line.Position = UDim2.new(0,3,0,0)
@@ -9110,7 +9110,7 @@ local function main()
 				envelopeDragBottom.Line.Size = UDim2.new(0,3,0,20)
 
 				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 					mouseEvent:Disconnect()
 					releaseEvent:Disconnect()
 					envelopeDragBottom.Line.Position = UDim2.new(0,3,0,0)
@@ -9163,7 +9163,7 @@ local function main()
 						local oldEnvelope = point[3]
 
 						releaseEvent = user.InputEnded:Connect(function(input)
-							if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+							if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 							mouseEvent:Disconnect()
 							releaseEvent:Disconnect()
 							currentlySelected = nil
@@ -9503,7 +9503,7 @@ local function main()
 						currentlySelected = true
 
 						releaseEvent = user.InputEnded:Connect(function(input)
-							if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then return end
+							if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
 							mouseEvent:Disconnect()
 							releaseEvent:Disconnect()
 							currentlySelected = nil
@@ -10682,7 +10682,7 @@ Main = (function()
 			{8,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="ProgressBar",Parent={3},Position=UDim2.new(0,110,0,145),Size=UDim2.new(0,0,0,4),}},
 			{9,"Frame",{BackgroundColor3=Color3.new(0.2392156869173,0.56078433990479,0.86274510622025),BorderSizePixel=0,Name="Bar",Parent={8},Size=UDim2.new(0,0,1,0),}},
 			{10,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image="rbxassetid://2764171053",ImageColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),Parent={8},ScaleType=1,Size=UDim2.new(1,0,1,0),SliceCenter=Rect.new(2,2,254,254),}},
-			{11,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Creator",Parent={2},Position=UDim2.new(1,-110,1,-20),Size=UDim2.new(0,105,0,20),Text="Developed by Moon",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
+			{11,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Creator",Parent={2},Position=UDim2.new(1,-110,1,-20),Size=UDim2.new(0,105,0,20),Text="Modified by Cloud",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
 			{12,"UIGradient",{Parent={11},Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
 			{13,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Version",Parent={2},Position=UDim2.new(1,-110,1,-35),Size=UDim2.new(0,105,0,20),Text=Main.Version,TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
 			{14,"UIGradient",{Parent={13},Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
