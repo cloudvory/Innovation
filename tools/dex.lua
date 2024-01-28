@@ -5176,7 +5176,7 @@ local function main()
       button2.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
           buttonPress = true
-          button1.BackgroundTransparency = 0.5
+          button2.BackgroundTransparency = 0.5
           if self:CanScrollDown() then self:ScrollDown() self.Scrolled:Fire() end
           local buttonTick = tick()
           local releaseEvent
@@ -5479,7 +5479,7 @@ local function main()
 
 					if input.UserInputType == Enum.UserInputType.MouseMovement then
 						resizer.BackgroundTransparency = 0.5
-					elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+					elseif input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						local releaseEvent,mouseEvent
 
 						local offX = mouse.X - resizer.AbsolutePosition.X
@@ -5621,7 +5621,7 @@ local function main()
 			self.ContentPane = guiMain.Content
 
 			guiTopBar.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 and self.Draggable then
+				if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and self.Draggable then
 					local releaseEvent,mouseEvent
 
 					local maxX = sidesGui.AbsoluteSize.X
@@ -5635,7 +5635,7 @@ local function main()
 					guiDragging = true
 
 					releaseEvent = clonerefs(game:GetService("UserInputService")).InputEnded:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 							releaseEvent:Disconnect()
 							mouseEvent:Disconnect()
 							guiDragging = false
@@ -5717,7 +5717,7 @@ local function main()
 			end)
 
 			guiMain.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 and not self.Aligned and not self.Closed then
+				if (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1) and not self.Aligned and not self.Closed then
 					moveToTop(self)
 				end
 			end)
@@ -5823,7 +5823,7 @@ local function main()
 				if not side.Resizing then
 					if input.UserInputType == Enum.UserInputType.MouseMovement then
 						resizer.BackgroundColor3 = theme.MainColor2
-					elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+					elseif input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						local releaseEvent,mouseEvent
 
 						local offX = mouse.X - resizer.AbsolutePosition.X
