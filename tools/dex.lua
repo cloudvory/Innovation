@@ -5161,7 +5161,7 @@ local function main()
               buttonPress = false
             end
           end)
-          while buttonPress then
+          while buttonPress do
             if tick() - buttonTick >= 0.3 and self:CanScrollUp() then
               self:ScrollUp()
               self.Scrolled:Fire()
@@ -5187,7 +5187,7 @@ local function main()
               buttonPress = false
             end
           end)
-          while buttonPress then
+          while buttonPress do
             if tick() - buttonTick >= 0.3 and self:CanScrollUp() then
               self:ScrollDown()
               self.Scrolled:Fire()
