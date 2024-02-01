@@ -5198,86 +5198,90 @@ local function main()
 				if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and not buttonPress then button1.BackgroundTransparency = 1 end
 			end)
       
-			scrollThumb.InputBegan:Connect(function(input)
-				if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and not thumbPress then scrollThumb.BackgroundTransparency = 0.2 scrollThumb.BackgroundColor3 = self.ThumbSelectColor end
-				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
+      scrollThumb.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+          local dir = self.Horizontal and "X" or "Y"
+          local lastThumbPos = nil
+          buttonPress = false
+          thumbFramePress = false			
+          thumbPress = true
+          scrollThumb.BackgroundTransparency = 0
+          local mouseOffset = mouse[dir] - scrollThumb.AbsolutePosition[dir]
+          local mouseStart = mouse[dir]
+          local releaseEvent
+          local mouseEvent
+          
+          releaseEvent.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+              releaseEvent:Disconnect()
+              if mouseEvent then mouseEvent:Disconnect() end
+              if checkMouseInGui(scrollThumb) then scrollThumb.BackgroundTransparency = 0.2 else scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
+              thumbPress = false
+            end
+          end)
+          self:Update()
+          mouseEvent = user.InputChanged:Connect(function(input)
+            if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and thumbPress and releaseEvent.Connected then
+						  local thumbFrameSize = scrollThumbFrame.AbsoluteSize[dir]-scrollThumb.AbsoluteSize[dir]
+						  local pos = mouse[dir] - scrollThumbFrame.AbsolutePosition[dir] - mouseOffset
+						  if pos > thumbFrameSize then
+							  pos = thumbFrameSize
+						  elseif pos < 0 then
+							  pos = 0
+						  end
+						  if lastThumbPos ~= pos then
+							  lastThumbPos = pos
+							  self:ScrollTo(math.floor(0.5+pos/thumbFrameSize*(self.TotalSpace-self.VisibleSpace)))
+						  end
+						  wait()
+					  end
+          end)
+        end
+      end)
+      scrollThumb.InputEnded:Connect(function(input)
+        if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and not thumbPress then scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
+      end)
+      scrollThumbFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch or checkMouseInGui(scrollThumb) then
+          local dir = self.Horizontal and "X" or "Y"
+				  local scrollDir = 0
+				  if mouse[dir] >= scrollThumb.AbsolutePosition[dir] + scrollThumb.AbsoluteSize[dir] then
+					  scrollDir = 1
+				  end
+				  
+          local function doTick()
+					  local scrollSize = self.VisibleSpace - 1
+					  if scrollDir == 0 and mouse[dir] < scrollThumb.AbsolutePosition[dir] then
+						  self:ScrollTo(self.Index - scrollSize)
+					  elseif scrollDir == 1 and mouse[dir] >= scrollThumb.AbsolutePosition[dir] + scrollThumb.AbsoluteSize[dir] then
+						  self:ScrollTo(self.Index + scrollSize)
+					  end
+          end
+			  
+			    thumbPress = false			
 
-				local dir = self.Horizontal and "X" or "Y"
-				local lastThumbPos = nil
-
-				buttonPress = false
-				thumbFramePress = false			
-				thumbPress = true
-				scrollThumb.BackgroundTransparency = 0
-				local mouseOffset = mouse[dir] - scrollThumb.AbsolutePosition[dir]
-				local mouseStart = mouse[dir]
-				local releaseEvent
-				local mouseEvent
-				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
-					releaseEvent:Disconnect()
-					if mouseEvent then mouseEvent:Disconnect() end
-					if checkMouseInGui(scrollThumb) then scrollThumb.BackgroundTransparency = 0.2 else scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
-					thumbPress = false
-				end)
-				self:Update()
-
-				mouseEvent = user.InputChanged:Connect(function(input)
-					if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and thumbPress and releaseEvent.Connected then
-						local thumbFrameSize = scrollThumbFrame.AbsoluteSize[dir]-scrollThumb.AbsoluteSize[dir]
-						local pos = mouse[dir] - scrollThumbFrame.AbsolutePosition[dir] - mouseOffset
-						if pos > thumbFrameSize then
-							pos = thumbFrameSize
-						elseif pos < 0 then
-							pos = 0
-						end
-						if lastThumbPos ~= pos then
-							lastThumbPos = pos
-							self:ScrollTo(math.floor(0.5+pos/thumbFrameSize*(self.TotalSpace-self.VisibleSpace)))
-						end
-						wait()
-					end
-				end)
-			end)
-			scrollThumb.InputEnded:Connect(function(input)
-				if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and not thumbPress then scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
-			end)
-			scrollThumbFrame.InputBegan:Connect(function(input)
-				if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch or checkMouseInGui(scrollThumb) then return end
-
-				local dir = self.Horizontal and "X" or "Y"
-				local scrollDir = 0
-				if mouse[dir] >= scrollThumb.AbsolutePosition[dir] + scrollThumb.AbsoluteSize[dir] then
-					scrollDir = 1
-				end
-
-				local function doTick()
-					local scrollSize = self.VisibleSpace - 1
-					if scrollDir == 0 and mouse[dir] < scrollThumb.AbsolutePosition[dir] then
-						self:ScrollTo(self.Index - scrollSize)
-					elseif scrollDir == 1 and mouse[dir] >= scrollThumb.AbsolutePosition[dir] + scrollThumb.AbsoluteSize[dir] then
-						self:ScrollTo(self.Index + scrollSize)
-					end
-				end
-
-				thumbPress = false			
-				thumbFramePress = true
-				doTick()
-				local thumbFrameTick = tick()
-				local releaseEvent
-				releaseEvent = user.InputEnded:Connect(function(input)
-					if input.UserInputType ~= Enum.UserInputType.MouseButton1 or input.UserInputType ~= Enum.UserInputType.Touch then return end
-					releaseEvent:Disconnect()
-					thumbFramePress = false
-				end)
-				while thumbFramePress do
-					if tick() - thumbFrameTick >= 0.3 and checkMouseInGui(scrollThumbFrame) then
-						doTick()
-					end
-					wait()
-				end
-			end)
-
+				  thumbFramePress = true
+				  doTick()
+				  local thumbFrameTick = tick()
+				  local releaseEvent
+				  
+				  releaseEvent = user.InputEnded:Connect(function(input)
+					  if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					    releaseEvent:Disconnect()
+					    thumbFramePress = false
+					  end
+				  end)
+			    
+			    while thumbFramePress do
+					  if tick() - thumbFrameTick >= 0.3 and checkMouseInGui(scrollThumbFrame) then
+						  doTick()
+					  end
+					  task.wait()
+				  end
+			    
+        end
+      end)
+      
 			newFrame.MouseWheelForward:Connect(function()
 				self:ScrollTo(self.Index - self.WheelIncrement)
 			end)
