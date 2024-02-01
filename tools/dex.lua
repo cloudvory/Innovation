@@ -5199,7 +5199,7 @@ local function main()
 			end)
       
       scrollThumb.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
           local dir = self.Horizontal and "X" or "Y"
           local lastThumbPos = nil
           buttonPress = false
