@@ -5199,7 +5199,7 @@ local function main()
 			end)
       
       scrollThumb.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement then
           local dir = self.Horizontal and "X" or "Y"
           local lastThumbPos = nil
           buttonPress = false
@@ -5212,7 +5212,7 @@ local function main()
           local mouseEvent
           
           releaseEvent.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
               releaseEvent:Disconnect()
               if mouseEvent then mouseEvent:Disconnect() end
               if checkMouseInGui(scrollThumb) then scrollThumb.BackgroundTransparency = 0.2 else scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
@@ -5221,7 +5221,7 @@ local function main()
           end)
           self:Update()
           mouseEvent = user.InputChanged:Connect(function(input)
-            if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and thumbPress and releaseEvent.Connected then
+            if (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) and thumbPress and releaseEvent.Connected then
 						  local thumbFrameSize = scrollThumbFrame.AbsoluteSize[dir]-scrollThumb.AbsoluteSize[dir]
 						  local pos = mouse[dir] - scrollThumbFrame.AbsolutePosition[dir] - mouseOffset
 						  if pos > thumbFrameSize then
@@ -5239,10 +5239,10 @@ local function main()
         end
       end)
       scrollThumb.InputEnded:Connect(function(input)
-        if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and not thumbPress then scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
+        if (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) and not thumbPress then scrollThumb.BackgroundTransparency = 0 scrollThumb.BackgroundColor3 = self.ThumbColor end
       end)
       scrollThumbFrame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch or checkMouseInGui(scrollThumb) then
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 or checkMouseInGui(scrollThumb) then
           local dir = self.Horizontal and "X" or "Y"
 				  local scrollDir = 0
 				  if mouse[dir] >= scrollThumb.AbsolutePosition[dir] + scrollThumb.AbsoluteSize[dir] then
@@ -5266,7 +5266,7 @@ local function main()
 				  local releaseEvent
 				  
 				  releaseEvent = user.InputEnded:Connect(function(input)
-					  if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					  if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
 					    releaseEvent:Disconnect()
 					    thumbFramePress = false
 					  end
@@ -5289,7 +5289,28 @@ local function main()
 			newFrame.MouseWheelBackward:Connect(function()
 				self:ScrollTo(self.Index + self.WheelIncrement)
 			end)
-
+      
+      local lastPos = nil
+      
+      newFrame.TouchMoved:Connect(function(touchPosition, deltaTime)
+        if #touchPosition == 1 then
+          local currentPosition = touchPosition[1].Position
+          
+          if lastPos then
+            local deltaY = currentPosition.Y - lastPosition.Y
+            if deltaY > 0 then
+              self:ScrollTo(self.Index + self.WheelIncrement)
+            elseif deltaY < 0 then
+              self:ScrollTo(self.Index - self.WheelIncrement)
+            else
+              print("Not Moving")
+            end
+            
+          end
+          
+        end
+      end)
+      
 			self.GuiElems.ScrollThumb = scrollThumb
 			self.GuiElems.ScrollThumbFrame = scrollThumbFrame
 			self.GuiElems.Button1 = button1
