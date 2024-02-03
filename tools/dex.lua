@@ -5211,7 +5211,7 @@ local function main()
           local releaseEvent
           local mouseEvent
           
-          releaseEvent.InputEnded:Connect(function(input)
+          releaseEvent = user.InputEnded:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
               releaseEvent:Disconnect()
               if mouseEvent then mouseEvent:Disconnect() end
