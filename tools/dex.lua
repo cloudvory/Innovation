@@ -5281,7 +5281,7 @@ local function main()
 			    
         end
       end)
-      
+     
 			newFrame.MouseWheelForward:Connect(function()
 				self:ScrollTo(self.Index - self.WheelIncrement)
 			end)
@@ -5289,27 +5289,6 @@ local function main()
 			newFrame.MouseWheelBackward:Connect(function()
 				self:ScrollTo(self.Index + self.WheelIncrement)
 			end)
-      
-      local lastPos = nil
-      
-      newFrame.TouchMoved:Connect(function(touchPosition, deltaTime)
-        if #touchPosition == 1 then
-          local currentPosition = touchPosition[1].Position
-          
-          if lastPos then
-            local deltaY = currentPosition.Y - lastPosition.Y
-            if deltaY > 0 then
-              self:ScrollTo(self.Index + self.WheelIncrement)
-            elseif deltaY < 0 then
-              self:ScrollTo(self.Index - self.WheelIncrement)
-            else
-              print("Not Moving")
-            end
-            
-          end
-          
-        end
-      end)
       
 			self.GuiElems.ScrollThumb = scrollThumb
 			self.GuiElems.ScrollThumbFrame = scrollThumbFrame
